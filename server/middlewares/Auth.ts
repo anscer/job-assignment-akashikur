@@ -2,7 +2,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import User from "../models/Users";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {

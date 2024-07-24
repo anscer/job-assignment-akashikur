@@ -4,7 +4,6 @@ import stateRoutes from "./routes/stateRoutes";
 import session from "express-session";
 import passport from "./config/passport";
 const db = require("./utlit/db");
-
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -29,6 +28,7 @@ app.use(passport.session());
 app.use("/api/auth", userRoutes);
 app.use("/api/states", stateRoutes);
 
-app.listen("3000", () => {
-  console.log("SERVER RUN AT", 3000);
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log("SERVER RUN AT", PORT);
 });

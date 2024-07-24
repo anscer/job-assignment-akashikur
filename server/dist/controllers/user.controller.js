@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
 const Users_1 = __importDefault(require("../models/Users"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const secretKey = "your_secret_key";
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, password } = req.body;
@@ -35,28 +34,3 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.register = register;
-// export const login = async (req: Request, res: Response) => {
-//   try {
-//     const { username, password } = req.body;
-//     const user = await User.findOne({ username });
-//     if (!user) {
-//       return res.status(400).send({ message: "User does't exists" });
-//     }
-//     const ispasswordSame = await bcrypt.compare(password, user.password);
-//     if (!ispasswordSame) {
-//       return res.status(400).send({ message: "password does't match" });
-//     }
-//     const token = jwt.sign(
-//       { id: user._id, username: user.username },
-//       "your_secret_key",
-//       { expiresIn: "1h" }
-//     );
-//     return res.status(200).json({ token: token, message: "User logged In" });
-//   } catch (err) {
-//     const error = err as Error;
-//     res.status(400).send(error.message);
-//   }
-// };
-// export const login = async (req: Request, res: Response) => {
-//   res.json({ message: "Logged in successfully" });
-// };

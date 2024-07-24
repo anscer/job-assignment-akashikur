@@ -23,6 +23,7 @@ app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use("/api/auth", userRoute_1.default);
 app.use("/api/states", stateRoutes_1.default);
-app.listen("3000", () => {
-    console.log("SERVER RUN AT", 3000);
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log("SERVER RUN AT", PORT);
 });

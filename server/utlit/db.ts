@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 
 mongoose
-  .connect(
-    "mongodb+srv://akashikur011:Katana12@cluster0.rtag8mv.mongodb.net/anscer"
-  )
+  .connect(process.env.MONGO_URI as string)
   .then(() => {
     console.log("MONGODB CONNECTED");
   })

@@ -15,16 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteState = exports.updateState = exports.getStates = exports.createState = void 0;
 const Stats_1 = __importDefault(require("../models/Stats"));
 const createState = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Validation and business logic
     try {
         const { name, description, status } = req.body;
-        // const { username } = req.user;
-        console.log(req);
+        const user = req.user;
+        const { username } = user;
         const statsObj = new Stats_1.default({
             name,
             description,
             status,
-            // createdBy: username,
+            createdBy: username,
         });
         yield statsObj.save();
         return res.status(201).json({ message: "stats created successfully" });
@@ -37,11 +36,13 @@ const createState = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.createState = createState;
 const getStates = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Fetch states from the database
-    // const { username, id } = req.user;
+    const user = req.user;
+    const { username, id } = user;
     try {
-        // const statsData = await State.find({ createdBy: username });
-        return res.status(200);
-        // .json({ message: "stats fetched successfully", data: statsData });
+        const statsData = yield Stats_1.default.find({ createdBy: username });
+        return res
+            .status(200)
+            .json({ message: "stats fetched successfully", data: statsData });
     }
     catch (err) {
         const error = err;
@@ -73,7 +74,6 @@ const updateState = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.updateState = updateState;
 const deleteState = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Delete state from the database
     const { id } = req.params;
     try {
         yield Stats_1.default.findByIdAndDelete(id);
