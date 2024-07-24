@@ -6,13 +6,14 @@ export const createState = async (req: Request, res: Response) => {
   try {
     const { name, description, status } = req.body;
 
-    const createdBy = req.user.username;
+    // const { username } = req.user;
+    console.log(req);
 
     const statsObj = new State({
       name,
       description,
       status,
-      createdBy,
+      // createdBy: username,
     });
     await statsObj.save();
     return res.status(201).json({ message: "stats created successfully" });
@@ -24,12 +25,11 @@ export const createState = async (req: Request, res: Response) => {
 
 export const getStates = async (req: Request, res: Response) => {
   // Fetch states from the database
-  const { username, id } = req.user;
+  // const { username, id } = req.user;
   try {
-    const statsData = await State.find({ createdBy: username });
-    return res
-      .status(200)
-      .json({ message: "stats fetched successfully", data: statsData });
+    // const statsData = await State.find({ createdBy: username });
+    return res.status(200);
+    // .json({ message: "stats fetched successfully", data: statsData });
   } catch (err) {
     const error = err as Error;
     res.status(400).send(error.message);

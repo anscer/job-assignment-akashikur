@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { login, register } from "../controllers/user.controller";
+import { register } from "../controllers/user.controller";
+import passport from "passport";
 
 const router = Router();
 
@@ -7,6 +8,7 @@ const router = Router();
 router.post("/register", register);
 
 // Login
-router.post("/login", login);
-
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  res.json({ message: "Logged in successfully" });
+});
 export default router;

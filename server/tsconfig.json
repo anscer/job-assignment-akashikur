@@ -1,14 +1,22 @@
 {
     "compilerOptions": {
-        "target": "ES6",
+        "target": "es6",
         "module": "commonjs",
         "outDir": "./dist",
-        "rootDir": "./src",
+        "rootDir": "./",
         "strict": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": [
-        "src"
+        "index.ts",
+        "config/**/*.ts",
+        "controllers/**/*.ts",
+        "models/**/*.ts",
+        "routes/**/*.ts",
+        "utlit/**/*.ts",
+        "middlewares/**/*.ts"
     ],
     "exclude": [
         "node_modules"

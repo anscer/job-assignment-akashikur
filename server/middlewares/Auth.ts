@@ -1,27 +1,41 @@
-import { NextFunction, Request, Response } from "express";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import User from "../models/Users";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-const secretKey = "your_secret_key";
 
-declare module "express-serve-static-core" {
-  interface Request {
-    user?: any;
-  }
-}
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username });
+      if (!user) return done(null, false, { message: "Incorrect username." });
 
-export const auth = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+      const isMatch = await bcrypt.compare(password, user.password);
 
-  if (token == null) return res.status(401).send("Unauthorized");
+      if (!isMatch)
+        return done(null, false, { message: "Incorrect password." });
+
+      return done(null, user);
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, (user as any).id);
+});
+
+passport.deserializeUser(async (id, done) => {
   try {
-    const verify = jwt.verify(token, secretKey);
-    req.user = verify;
-    next();
+    const user = await User.findById(id);
+    done(null, user);
   } catch (error) {
-    return res.status(403).json({
-      status: 403,
-      message: "Invalid token. Please log in again.",
-      data: error,
-    });
+    done(error);
   }
+});
+
+export const isAuthenticated = (req: any, res: any, next: any) => {
+  if (req.isAuthenticated()) return next();
+  res.status(401).json({ message: "Unauthorized" });
 };

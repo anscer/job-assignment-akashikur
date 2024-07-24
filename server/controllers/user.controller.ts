@@ -26,29 +26,32 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+// export const login = async (req: Request, res: Response) => {
+//   try {
+//     const { username, password } = req.body;
+//     const user = await User.findOne({ username });
 
-    if (!user) {
-      return res.status(400).send({ message: "User does't exists" });
-    }
+//     if (!user) {
+//       return res.status(400).send({ message: "User does't exists" });
+//     }
 
-    const ispasswordSame = await bcrypt.compare(password, user.password);
+//     const ispasswordSame = await bcrypt.compare(password, user.password);
 
-    if (!ispasswordSame) {
-      return res.status(400).send({ message: "password does't match" });
-    }
+//     if (!ispasswordSame) {
+//       return res.status(400).send({ message: "password does't match" });
+//     }
 
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      "your_secret_key",
-      { expiresIn: "1h" }
-    );
-    return res.status(200).json({ token: token, message: "User logged In" });
-  } catch (err) {
-    const error = err as Error;
-    res.status(400).send(error.message);
-  }
-};
+//     const token = jwt.sign(
+//       { id: user._id, username: user.username },
+//       "your_secret_key",
+//       { expiresIn: "1h" }
+//     );
+//     return res.status(200).json({ token: token, message: "User logged In" });
+//   } catch (err) {
+//     const error = err as Error;
+//     res.status(400).send(error.message);
+//   }
+// };
+// export const login = async (req: Request, res: Response) => {
+//   res.json({ message: "Logged in successfully" });
+// };
